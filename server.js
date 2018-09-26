@@ -1,20 +1,25 @@
 // server.js
-const net = require('net');
-const port = 8124;
+const net = require('net'); // подключаем net
+const fs = require('fs');   // подключаем fs
+const port = 8124;          // константа содержащая порт 8124
+const clientString = 'QA';
+const conclient = 'ACK';
+const disconclient = 'DEC';
+const logger = fs.createWriteStream('client_id.log');   // создание файла log
+let seed = 0;      // инициализируем сид
 
-const server = net.createServer((client) => {
-  console.log('Client connected');
+const server = net.createServer((client) => {   // создаем сервер
+    console.log('Client connected');
+    client.setEncoding('utf8');
 
-  client.setEncoding('utf8');
-
-  client.on('data', (data) => {
-    console.log(data);
-    client.write('\r\nHello!\r\nRegards,\r\nServer\r\n');
-  });
-
-  client.on('end', () => console.log('Client disconnected'));
-});
-
-server.listen(port, () => {
-  console.log(`Server listening on localhost:${port}`);
+    client.on('data', (data, err) =>
+    {
+        if (err) console.error(err);
+        
+    });
+    client.on('end', () =>
+    {
+        logger.write('Client #'+ client.id+ ' disconnected');
+        console.log('Client disconnected')
+    });
 });
