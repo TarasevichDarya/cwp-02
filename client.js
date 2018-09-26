@@ -21,3 +21,17 @@ client.connect({port: port, host: '127.0.0.1'}, () => {
     });
 });
 
+
+
+client.on('close', function () {
+    console.log('Connection closed');
+});
+
+function sendQuestion() {
+    if (currentIndex < questions.length-1) {
+        let qst = questions[++currentIndex].quest;
+        client.write(qst);
+    }
+    else
+        client.destroy();
+}
