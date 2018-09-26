@@ -15,7 +15,18 @@ const server = net.createServer((client) => {   // создаем сервер
     client.on('data', (data, err) =>
     {
         if (err) console.error(err);
-        
+        else if (!err && data === clientString)
+        {
+            client.id = Date.now() + seed++;
+            writeLog('Client #' + client.id + ' connected\n');
+            client.write(data === clientString ? conclient : disconclient);
+        }
+        else if (!err && data !== clientString) {
+            writeLog('Client #' + client.id + ' has asked: ' + data + '\n');
+            let answer = generateAnswer();
+            writeLog('Server answered to Client #' + client.id + ': ' + answer + '\n');
+            client.write(answer);
+        }
     });
     client.on('end', () =>
     {
@@ -23,3 +34,11 @@ const server = net.createServer((client) => {   // создаем сервер
         console.log('Client disconnected')
     });
 });
+function writeLog(data)
+{
+    logger.write(data);
+}
+function generateAnswer()
+{
+    return Math.random() > 0.5 ? '1' : '0';
+}
