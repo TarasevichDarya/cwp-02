@@ -4,7 +4,7 @@ const fs = require('fs');
 const port = 8124;
 const string = 'QA';
 const disconclient = 'DEC';
-const conclient = 'ACK';
+const answerofclient = 'ACK';
 
 const client = new net.Socket();
 let currentIndex = -1;
@@ -24,11 +24,11 @@ client.connect({port: port, host: '127.0.0.1'}, () => {
 client.on('data', (data) => {
     if (data === disconclient)
         client.destroy();
-    if (data === conclient)
+    if (data === answerofclient)
         sendQuestion();
     else {
         let qst = questions[currentIndex];
-        let answer = qst.conclient;
+        let answer = qst.answerofclient;
         console.log('\n' + qst.quest);
         console.log('Answer:' + data);
         console.log('Server:' + answer);

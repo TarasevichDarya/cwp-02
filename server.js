@@ -3,7 +3,7 @@ const net = require('net'); // подключаем net
 const fs = require('fs');   // подключаем fs
 const port = 8124;          // константа содержащая порт 8124
 const clientString = 'QA';
-const conclient = 'ACK';
+const answerofclient = 'ACK';
 const disconclient = 'DEC';
 const logger = fs.createWriteStream('client_id.log');   // создание файла log
 let seed = 0;      // инициализируем сид
@@ -18,19 +18,19 @@ const server = net.createServer((client) => {   // создаем сервер
         else if (!err && data === clientString)
         {
             client.id = Date.now() + seed++;
-            writeLog('Client #' + client.id + ' connected\n');
-            client.write(data === clientString ? conclient : disconclient);
+            writeLog('Client number ' + client.id + ' connected ');
+            client.write(data === clientString ? answerofclient : disconclient);
         }
         else if (!err && data !== clientString) {
-            writeLog('Client #' + client.id + ' has asked: ' + data + '\n');
+            writeLog('Client number ' + client.id + ' has asked: ' + data + ' ');
             let answer = generateAnswer();
-            writeLog('Server answered to Client #' + client.id + ': ' + answer + '\n');
+            writeLog('Server answered to Client number ' + client.id + ': ' + answer + ' ');
             client.write(answer);
         }
     });
     client.on('end', () =>
     {
-        logger.write('Client #'+ client.id+ ' disconnected');
+        logger.write('Client number '+ client.id + ' disconnected ');
         console.log('Client disconnected')
     });
 });
