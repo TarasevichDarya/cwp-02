@@ -1,0 +1,18 @@
+[
+  {
+    "quest": "Do you want to live abroad?",
+    "ans": "1"
+  },
+  {
+    "quest": "Do you like to swim?",
+    "ans": "0"
+  },
+  {
+    "quest" : "Would you like to spend a weekend in the USA?",
+    "ans" : "1"
+  },
+  {
+    "quest" : "Have you ever seen the film The Theory of Big Bang?",
+    "ans" : "0"
+  }
+]
