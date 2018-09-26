@@ -3,8 +3,8 @@ const net = require('net');
 const fs = require('fs');
 const port = 8124;
 const string = 'QA';
-const bad = 'DEC';
-const good = 'ACK';
+const disconclient = 'DEC';
+const conclient = 'ACK';
 
 const client = new net.Socket();
 let currentIndex = -1;
@@ -21,7 +21,21 @@ client.connect({port: port, host: '127.0.0.1'}, () => {
     });
 });
 
-
+client.on('data', (data) => {
+    if (data === disconclient)
+        client.destroy();
+    if (data === conclient)
+        sendQuestion();
+    else {
+        let qst = questions[currentIndex];
+        let answer = qst.conclient;
+        console.log('\n' + qst.quest);
+        console.log('Answer:' + data);
+        console.log('Server:' + answer);
+        console.log('Result:' + (data === answer ? 'True': 'False'));
+        sendQuestion();
+    }
+});
 
 client.on('close', function () {
     console.log('Connection closed');
