@@ -42,3 +42,6 @@ function generateAnswer()
 {
     return Math.random() > 0.5 ? '1' : '0';
 }
+server.listen(port, () => {
+    console.log(`Server listening on localhost: ${port}`);
+});
